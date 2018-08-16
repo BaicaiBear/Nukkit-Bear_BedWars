@@ -1,0 +1,25 @@
+name: Bear_GetBed
+main: top.bearcabbage.bedwars.Bear_BedWars
+version: "1.0.0"
+api: ["1.0.0"]
+
+load: POSTWORLD
+
+author: 小熊白菜
+description: 这是一个Nukkit上运行的起床战争插件
+website: http://bearcabbage.top/
+
+permissions:
+  Bear_GetBed.editsitting:
+    description: 可以使用修改配置的人
+    default: op
+  Bear_GetBed.jointhegame:
+    description: 可以进入游戏的人
+    default: true
+
+
+commands:
+  getbed:
+    description: 起床战争游戏配置修改主指令
+    usage: "/getbed help"
+    permission: Bear_GetBed.editsitting
