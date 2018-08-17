@@ -42,10 +42,12 @@ public class BedWars extends PluginBase implements Listener {
     private int num4;
     private int sumnum;
 
+    public Player[] gamer;
+
     /*
-   This function will be created in the futrue version.
-   此功能将在未来版本中开发。
-   */
+       This function will be created in the futrue version.
+       此功能将在未来版本中开发。
+       */
     private void CopyLevel() {
         this.getLogger().warning("[起床战争]地图不存在，请手动复制");
     }
@@ -54,10 +56,10 @@ public class BedWars extends PluginBase implements Listener {
     {
         team1 = team2 = team3 = team4 = 0;
         saveResource("Config.yml");
-        team1 = this.getConfig().getInt("1队进入木牌位置");
-        team2 = this.getConfig().getInt("2队进入木牌位置");
-        team3 = this.getConfig().getInt("3队进入木牌位置");
-        team4 = this.getConfig().getInt("4队进入木牌位置");
+        team1 = this.getConfig().getInt("1队进入木牌位置",0);
+        team2 = this.getConfig().getInt("2队进入木牌位置",0);
+        team3 = this.getConfig().getInt("3队进入木牌位置",0);
+        team4 = this.getConfig().getInt("4队进入木牌位置",0);
         this.getConfig().save();
         num1 = num2 = num3 = num4 = 0;
         sumnum = 0;
@@ -102,35 +104,42 @@ public class BedWars extends PluginBase implements Listener {
 
             int team;
             int id = event.getBlock().getId();
+            String number;
             team = event.getLine(1).charAt(0) - '0';
             switch (team) {
                 case 1:
                     team1 = id;
                     this.getConfig().set("1队进入木牌位置", team1);
                     this.getConfig().save();
+                    number = "1";
                     break;
                 case 2:
                     team2 = id;
                     this.getConfig().set("2队进入木牌位置", team2);
                     this.getConfig().save();
+                    number = "2";
                     break;
                 case 3:
                     team3 = id;
                     this.getConfig().set("3队进入木牌位置", team3);
                     this.getConfig().save();
+                    number = "3";
                     break;
                 case 4:
                     team4 = id;
                     this.getConfig().set("4队进入木牌位置", team4);
                     this.getConfig().save();
+                    number = "4";
                     break;
                 default:
                     this.getLogger().warning("[起床战争]出现了没有检出的未知错误，错误原因：设置木牌时文字格式有误");
                     return false;
             }
+            event.setLine(0, "§3[起床战争]");
+            event.setLine(1, "§b进入"+number+"队候战室");
+            event.getPlayer().sendMessage("[起床战争]设置成功");
             return true;
         }
-        event.getPlayer().sendMessage("[起床战争]设置成功");
         return false;
     }
     @EventHandler
@@ -191,6 +200,7 @@ public class BedWars extends PluginBase implements Listener {
                 for(int i=0;i<1000000;i++)
                     for(int j=0;j<1000;j++);
                 BedGame.onGame(sumnum,gameplay1,gameplay2,gameplay3,gameplay4,gameplay);
+
             }
             catch(Exception e)
             {
